@@ -104,7 +104,7 @@ top10_cities <- top10_cities %>%
   bind_cols(as.data.frame(top10_cities_coords)) %>%
   rename(longitude = X, latitude = Y)
 
-ggplot() +
+first_map <- ggplot() +
   geom_sf(data = continents, fill = "lightgray", color = "black") +
   geom_sf(data = states_projection, fill = NA, color = "black", lty = 1, size = 0.8) +
   geom_sf(data = state_boundaries, fill = NA, color = "black", lty = 2, size = 0.5) +
@@ -124,7 +124,7 @@ top5_farthest <- top5_farthest %>%
   bind_cols(as.data.frame(top5_farthest_coords)) %>%
   rename(longitude = X, latitude = Y)
 
-ggplot() +
+dist_us <- ggplot() +
   geom_sf(data = states_projection, fill = NA, color = "black", lty = 1, size = 0.8) +
   geom_sf(data = cities_projection, aes(color = dist_to_border_m), size = 2) +
   scale_color_viridis_c(name = "Distance to National Border (km)") +
@@ -142,7 +142,7 @@ top5_state_border_coords <- st_coordinates(top5_state_border)
 top5_state_border <- top5_state_border %>%
   bind_cols(as.data.frame(top5_state_border_coords)) %>%
   rename(longitude = X, latitude = Y)
-ggplot() +
+dist_states <- ggplot() +
   geom_sf(data = states_projection, fill = NA, color = "black", lty = 1, size = 0.8) +
   geom_sf(data = cities_projection, aes(color = dist_to_state_border_m), size = 2) +
   scale_color_viridis_c(name = "Distance to Nearest State Border (m)") +
@@ -183,7 +183,7 @@ top5_equal_zone <- equal_zone_cities %>%
   arrange(desc(population)) %>%
   slice_head(n = 5)
 
-ggplot() +
+dist_equi <- ggplot() +
   geom_sf(data = cities_projection, color = "gray70", size = 0.4) +
   geom_sf(data = equal_zone_cities, color = "orange", size = 1) +
   gghighlight(equal_dist_diff <= 100, use_direct_label = FALSE) +
@@ -244,7 +244,7 @@ top10_danger_zone <- danger_zone_cities %>%
          X = coords[, 1],
          Y = coords[, 2])
 
-ggplot() +
+DZ_map <- ggplot() +
   geom_sf(data = states_projection, fill = NA, color = "gray70", lty = 2) +
   geom_sf(data = danger_zone_cities, color = "red", size = 1) +
   gghighlight(TRUE, use_direct_label = FALSE) +
